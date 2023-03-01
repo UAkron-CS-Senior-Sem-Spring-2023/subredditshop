@@ -1,6 +1,7 @@
 import { env } from '../lib/env.js'
 
 export async function load() {
+    /*
     let authResponse = await fetch('https://www.reddit.com/api/v1/access_token', {
         method: 'POST',
         headers: {
@@ -12,4 +13,5 @@ export async function load() {
     return {
         response: authResponseJSON,
     }
+    */
 }

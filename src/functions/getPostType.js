@@ -1,5 +1,8 @@
 /**
  * @param {string} title
+ * 
+ * Determines the post type based on the title of the post.
+ * 
  */
 function getPostType(title) {
     try {
@@ -8,10 +11,10 @@ function getPostType(title) {
         let wantString = "";
 
         // Regexes to get have's and want's from title
-        let haveRegex = /\[H\].*?[^\[]*/
-        let wantRegex = /\[W\].*?[^\[]*/
-        let haveMatch = title.match(haveRegex);
-        let wantMatch = title.match(wantRegex);
+        const haveRegex = /\[H\].*?[^\[]*/
+        const wantRegex = /\[W\].*?[^\[]*/
+        const haveMatch = title.match(haveRegex);
+        const wantMatch = title.match(wantRegex);
 
         if (haveMatch) {
             haveString = haveMatch[0];
@@ -21,9 +24,9 @@ function getPostType(title) {
         }
 
         // Regex needed to determine post type
-        let cashRegexes = [/cash\b/i, /\$/i];
-        let paypalRegexes = [/paypal\b/i];
-        let paymentRegexes = [...cashRegexes, ...paypalRegexes];
+        const cashRegexes = [/cash\b/i, /\$/i];
+        const paypalRegexes = [/paypal\b/i];
+        const paymentRegexes = [...cashRegexes, ...paypalRegexes];
         
         let hasMoney, wantsMoney = false;
 
