@@ -4,11 +4,37 @@
  * Determines the post type based on the title of the post.
  * 
  */
-function getPostType(title) {
+function getPostType(title: string) {
     try {
-        // Assume post type by location of words "Cash" and "Paypal" in title
-        let haveString = "";
-        let wantString = "";
+        // Determine post type by presence of keywords
+        const sellingKeywords: string[] = [
+            '[WTS]',
+            '[FS]'
+        ]
+        const buyingKeywords: string[] = [
+            '[WTB]'
+        ];
+        const giveawayKeywords: string[] = [
+            '[FREE]'
+        ]
+
+        const keywordsDict: { [key: string]: string[] } = {
+            'Selling': sellingKeywords,
+            'Buying': buyingKeywords,
+            'Giveaway': giveawayKeywords
+        }
+
+        for (const postType in keywordsDict) {
+            for (let i = 0; i < keywordsDict[postType].length; ++i) {
+                if (title.includes(keywordsDict[postType][i])) {
+                    return postType;
+                }
+            }
+        };
+
+        // Determine post type by location of words "Cash" and "Paypal" in title
+        let haveString = '';
+        let wantString = '';
 
         // Regexes to get have's and want's from title
         const haveRegex = /\[H\].*?[^\[]*/
@@ -48,7 +74,7 @@ function getPostType(title) {
         }
     } catch (exception) {
         // Handle only undefined exceptions
-        if (exception instanceof TypeError && exception.message.includes("undefined")) {
+        if (exception instanceof TypeError && exception.message.includes('undefined')) {
             return 'Unknown';
         } else {
             // Rethrow the exception

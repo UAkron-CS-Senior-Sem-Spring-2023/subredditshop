@@ -1,8 +1,8 @@
 <script>
     import { onMount } from 'svelte';
-	import filterPosts from '../functions/filterPosts.js';
-    import getPostType from '../functions/getPostType.js';
-    import getTimestamps from '../functions/getTimestamps.js';
+	import filterPosts from '../functions/filterPosts';
+    import getPostType from '../functions/getPostType';
+    import getTimestamps from '../functions/getTimestamps';
     /**
 	 * @type {any}
 	 */
@@ -24,7 +24,7 @@
         });
         */
         console.log(data.response);
-        const response = await fetch('https://www.reddit.com/r/mechmarket.json');
+        const response = await fetch('https://www.reddit.com/r/homelabsales.json');
         const responseJSON = await response.json();
         if (responseJSON.kind == 'Listing') {
             let allPosts = responseJSON.data.children;

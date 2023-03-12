@@ -9,8 +9,8 @@ import uniqueLinks from './uniqueLinks.js';
  * TODO: Return multiple timestamps
  * 
  */
-function getTimestamp(postText) {
-    let timestamps = new Set();
+function getTimestamp(postText: string) {
+    let timestamps = new Set<string>();
     const timestampRegex = /(?:http|https):(?:\;|\,|\/|\?|\:|\@|\&|\=|\+|\$|\-|\_|\.|\!|\~|\'|\#|\/|[a-z]|[A-Z]|[0-9])+/;
     const timestampMatches = postText.match(timestampRegex);
     if (timestampMatches) {
@@ -21,16 +21,20 @@ function getTimestamp(postText) {
 
     // Iterate through each timestamp and ensure that it is unique from every other stamp
     timestamps.forEach((currentTimestamp) => {
-        let remainingTimestamps = new Set(timestamps);
-        remainingTimestamps.delete(currentTimestamp);
-        let duplicate = false;
-        remainingTimestamps.forEach((remainingTimestamp) => {
-            if (!uniqueLinks(currentTimestamp, remainingTimestamp)) {
-                duplicate = true;
+        if (typeof currentTimestamp === 'string') {
+            let remainingTimestamps = new Set(timestamps);
+            remainingTimestamps.delete(currentTimestamp);
+            let duplicate = false;
+            remainingTimestamps.forEach((remainingTimestamp) => {
+                if (typeof remainingTimestamp === 'string') {
+                    if (!uniqueLinks(currentTimestamp, remainingTimestamp)) {
+                        duplicate = true;
+                    }
+                }
+            });
+            if (duplicate) {
+                timestamps.delete(currentTimestamp);
             }
-        });
-        if (duplicate) {
-            timestamps.delete(currentTimestamp);
         }
     });
 

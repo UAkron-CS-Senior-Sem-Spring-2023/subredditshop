@@ -7,7 +7,7 @@
  * not need to be displayed.
  * 
  */
-function filterPosts(posts) {
+function filterPosts(posts: Object[]) {
     for (let i = 0; i < posts.length; ++i) {
         // @ts-ignore
         if (posts[i].data.stickied || posts[i].data.pinned) {

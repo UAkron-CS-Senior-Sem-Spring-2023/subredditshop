@@ -5,7 +5,7 @@
  * Returns whether or not the two supplied links are different from one another
  * 
  */
-function uniqueLinks(firstUrl, secondUrl) {
+function uniqueLinks(firstUrl: string, secondUrl: string) {
     if (firstUrl.length > secondUrl.length) {
         for (let i = 0; i < secondUrl.length; ++i) {
             if (secondUrl[i] != firstUrl[i]) {
