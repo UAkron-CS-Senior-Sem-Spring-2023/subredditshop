@@ -7,18 +7,19 @@
 function getPostType(title: string) {
     try {
         // Determine post type by presence of keywords
-        const sellingKeywords: string[] = [
-            '[WTS]',
-            '[FS]'
+        const sellingKeywords: RegExp[] = [
+            /\[WTS\]/i,
+            /^\[FS\]/i
         ]
-        const buyingKeywords: string[] = [
-            '[WTB]'
+        const buyingKeywords: RegExp[] = [
+            /\[WTB\]/i,
+            /^\[W\]/i
         ];
-        const giveawayKeywords: string[] = [
-            '[FREE]'
+        const giveawayKeywords: RegExp[] = [
+            /^\[FREE\]/i
         ]
 
-        const keywordsDict: { [key: string]: string[] } = {
+        const keywordsDict: { [key: string]: RegExp[] } = {
             'Selling': sellingKeywords,
             'Buying': buyingKeywords,
             'Giveaway': giveawayKeywords
@@ -26,7 +27,7 @@ function getPostType(title: string) {
 
         for (const postType in keywordsDict) {
             for (let i = 0; i < keywordsDict[postType].length; ++i) {
-                if (title.includes(keywordsDict[postType][i])) {
+                if (keywordsDict[postType][i].test(title)) {
                     return postType;
                 }
             }
