@@ -16,7 +16,8 @@ function getPostType(title: string) {
             /^\[W\]/i
         ];
         const giveawayKeywords: RegExp[] = [
-            /^\[FREE\]/i
+            /^\[FREE\]/i,
+            /^\[GIVEAWAY\]/i
         ]
 
         const keywordsDict: { [key: string]: RegExp[] } = {

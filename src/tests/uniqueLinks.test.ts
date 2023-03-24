@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import uniqueLinks from '../functions/uniqueLinks.js';
+import uniqueLinks from '../functions/uniqueLinks';
 
 describe('uniqueLinks', () => {
     it('Verifies that two links are unique.', async () => {

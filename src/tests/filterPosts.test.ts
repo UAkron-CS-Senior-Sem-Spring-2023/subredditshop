@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import filterPosts from '../functions/filterPosts.js';
+import filterPosts from '../functions/filterPosts';
 import sampleJSON from './sample_data/hardwareswap.json'
 
 describe('filterPosts', () => {

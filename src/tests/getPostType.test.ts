@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import getPostType from '../functions/getPostType.js';
+import getPostType from '../functions/getPostType';
 
 describe('getPostType', () => {
 	// Buying Tests
@@ -72,7 +72,9 @@ describe('getPostType', () => {
 
 	// Giveaway Tests
 	it('Gets the post type via [FREE] being present at the beginning of the title.', () => {
+		expect(getPostType('[free] Fractal Node 804')).toBe('Giveaway');
 		expect(getPostType('[FREE] Fractal Node 804')).toBe('Giveaway');
+		expect(getPostType('[Free] Fractal Node 804')).toBe('Giveaway');
 	});
 
 	// Unknown default test

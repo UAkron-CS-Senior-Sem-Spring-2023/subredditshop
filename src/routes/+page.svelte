@@ -1,12 +1,10 @@
 <script>
-    import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
+    import SvelteMarkdown from 'svelte-markdown'
 	import filterPosts from '../functions/filterPosts';
     import getPostType from '../functions/getPostType';
     import getTimestamps from '../functions/getTimestamps';
-    /**
-	 * @type {any}
-	 */
-    export let data;
+    import toggleDisplay from '../functions/toggleDisplay';
 
     /**
 	 * @type {any[]}
@@ -23,8 +21,7 @@
             body: `grant_type=password&username=${env.USERNAME}&password=${env.PASSWORD}`
         });
         */
-        console.log(data.response);
-        const response = await fetch('https://www.reddit.com/r/homelabsales.json');
+        const response = await fetch('https://www.reddit.com/r/avexchange.json');
         const responseJSON = await response.json();
         if (responseJSON.kind == 'Listing') {
             let allPosts = responseJSON.data.children;
@@ -42,6 +39,11 @@
 
     .post_notes h3:not(:first-child) {
         margin-left: 20px;
+    }
+
+    .post_content {
+        display: none;
+        margin: 20px 0px;
     }
 </style>
 
@@ -61,6 +63,16 @@
             <figure>
                 <img src={post.data.thumbnail} alt={post.data.title}>
             </figure>
+        {/if}
+        {#if post.data.selftext}
+            <div>
+                <button on:click={() => toggleDisplay(post.data.name)}>Click to show post content</button>
+                <div id={post.data.name} class="post_content">
+                    <SvelteMarkdown source={post.data.selftext} />
+                </div>
+            </div>
+        {:else}
+            <p><i>This post has no content</i></p>
         {/if}
 	{:else}
 		<!-- this block renders when photos.length === 0 -->

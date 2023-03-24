@@ -1,4 +1,4 @@
-import uniqueLinks from './uniqueLinks.js';
+import uniqueLinks from './uniqueLinks';
 
 /**
  * @param {string} postText

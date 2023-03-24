@@ -34,6 +34,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"dotenv": "^16.0.3"
+		"dotenv": "^16.0.3",
+		"svelte-markdown": "^0.2.3"
 	}
 }
