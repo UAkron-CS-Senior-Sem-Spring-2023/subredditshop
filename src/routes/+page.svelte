@@ -5,11 +5,81 @@
     import getPostType from '../functions/getPostType';
     import getTimestamps from '../functions/getTimestamps';
     import toggleDisplay from '../functions/toggleDisplay';
+	import { json } from '@sveltejs/kit';
 
     /**
 	 * @type {any[]}
 	 */
     let posts = [];
+
+    /**
+     * @param {string} id
+     * @param {string} title
+     * @param {string} content
+     */
+     async function generateListing(id, title, content) {
+        const response = await fetch('/api/generate_listing', {
+        method: 'POST',
+        body: JSON.stringify({"title": title, "content": content}),
+        headers: {
+            'content-type': 'application/json'
+        }
+        });
+
+        let results = await response.json();
+
+        results = JSON.parse(results);
+
+        console.log(results);
+
+        console.log(results.post_type);
+
+        if (results.post_type == "Selling") {
+            let result_html = "";
+            let target = document.getElementById(id);
+            if (target) {
+                if (results.timestamps) {
+                    result_html += '<h3>';
+                    results.timestamps.forEach((/** @type {String} */ timestamp, /** @type {Number} */ index ) => {
+                        result_html += '<a href="' + timestamp + '" target="_blank" rel="noreferrer">Timestamp #' + (index + 1).toString() + ' </a>';
+                    });
+                    result_html += '</h3>';
+                }
+                if (results.items) {
+                    result_html += '<div>'
+                    results.items.forEach((/** @type {{name: string, description: string, prices: [{price: string, type: string}], trades_accepted: [string]}} */ item) => {
+                        if (item.name) {
+                            result_html += '<li>' + item.name + '</li>';
+                        }
+                        result_html += '<ul>';
+                        if (item.description && item.description != "") {
+                            result_html += '<li>' + item.description + '</li>';
+                        }
+                        if (item.prices && item.prices.length > 0) {
+                            result_html += '<li>Prices</li>';
+                            result_html += '<ul>';
+                            item.prices.forEach((price) => {
+                                result_html += '<li>' + price.price + ' ' + price.type + '</li>';
+                            });
+                            result_html += '</ul>';
+                        }
+                        if (item.trades_accepted && item.trades_accepted.length > 0) {
+                            result_html += '<li>Trades</li>';
+                            result_html += '<ul>';
+                            item.trades_accepted.forEach((trade) => {
+                                result_html += '<li>' + trade + '</li>';
+                            });
+                            result_html += '</ul>';
+                        }
+                        result_html += '</ul>';
+                    });
+                    result_html += '</div>'
+                }
+                result_html += "<p>" + JSON.stringify(results) + "</p>";
+                target.innerHTML = result_html
+            }
+        }
+    }
 
     onMount(async () => {
         /*
@@ -42,7 +112,6 @@
     }
 
     .post_content {
-        display: none;
         margin: 20px 0px;
     }
 </style>
@@ -66,9 +135,9 @@
         {/if}
         {#if post.data.selftext}
             <div>
-                <button on:click={() => toggleDisplay(post.data.name)}>Click to show post content</button>
+                <button id={post.data.name}_title on:click={() => generateListing(post.data.name, post.data.title, post.data.selftext)}>Click to show post content</button>
                 <div id={post.data.name} class="post_content">
-                    <SvelteMarkdown source={post.data.selftext} />
+                    <!-- <SvelteMarkdown source={post.data.selftext} /> -->
                 </div>
             </div>
         {:else}
