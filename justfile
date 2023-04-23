@@ -10,3 +10,5 @@ rebuild:
     docker run -d -p 3000:3000 --rm --name subredditshop subredditshop
 function-tests:
     npx vitest run
+update-env:
+    npm run check
